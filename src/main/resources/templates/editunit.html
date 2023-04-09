@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recipes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Add, edit or delete units</h1>
+	
+	<!-- change the value of chosen unit -->
+	<h3>Change unit (<span th:text="${unit.unit}" th:remove="tag"></span>) to</h3>
+     <form th:object="${updatedUnit}" th:action="@{../updateunit}" action="#" method="post">
+     	<input type="hidden" id="unitId" th:field="*{unitId}"/>
+		<input type="text" th:field="*{unit}" />
+		<input type="submit" value="Save"></input>
+	</form>
+	
+	<br/>
+	
+	<a href="/units"><button>Cancel</button></a> 
+     
+</body>
+</html>

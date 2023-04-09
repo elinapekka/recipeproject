@@ -1,0 +1,129 @@
+<!-- this page can be only accessed by the admin and is meant for editing recipes that already exist -->
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recipe</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	
+	<h1>
+		<span th:text="${recipe.name}" th:remove="tag">title</span>
+	</h1>
+	<p>
+		<span th:text="${recipe.shortDescription}" th:remove="tag">short description</span>
+		<br/>
+		Estimated time: <span th:text="${recipe.time}" th:remove="tag">time</span>
+	</p>
+	
+	<h3>Update the basic info</h3>
+	<form action="#" th:action="@{/updaterecipe}" th:object="${updatedRecipe}" method="POST">
+		<input type="hidden" id="recipeId" th:field="*{id}"/>
+		<label for="ingredient">Name: </label>
+		<input type="text" id="name" th:field="*{name}" />
+		<div style="clear: both; display: block; height: 10px;"></div>
+		<label for="ingredient">Time: </label>
+		<input type="text" id="time" th:field="*{time}" />
+		<div style="clear: both; display: block; height: 10px;"></div>
+		<label for="ingredient">Short description: </label>
+		<input type="text" id="shortDescription" th:field="*{shortDescription}" />
+		<div style="clear: both; display: block; height: 10px;"></div>
+		
+		<input type="submit" value="Save"></input>
+	</form>
+	
+	
+	<h2>Ingredients</h2>
+	<table>
+    	<tr th:each = "ingredient : ${ingredients}">
+    		<td th:text="${ingredient.quantity} + ${ingredient.unit}"></td>
+    		<td th:text="${ingredient.ingredient}"></td>
+    		<td>
+    			<a th:href="@{/editingredient/{ingredientid}(ingredientid=${ingredient.ingredientId})}">
+    			<button>Edit</button>
+    			</a>
+    		</td>
+    		<td>
+    			<a th:href="@{/deleteingredient/{ingredientid}(ingredientid=${ingredient.ingredientId})}">
+    			<button>Delete</button>
+    			</a>
+    		</td>
+    	</tr>
+     </table>
+	
+	
+	<!-- Add ingredient -->
+	<h3>Add an ingredient</h3>
+	
+	<form action="#" th:action="@{/saveingredient}" th:object="${ingredient}" method="POST">
+		<input type="hidden" id="recipeId" th:field="*{recipeId}"/>
+		
+		<label for="quantity">Quantity: </label>
+		<input type="text" id="quantity" th:field="*{quantity}" />
+		<select id="units" th:field="*{unit}" class="form-control">
+ 			<option th:each="unit: ${units}" th:value="${unit.unit}" th:text="${unit.unit}"></option>
+		</select>
+		<div style="clear: both; display: block; height: 10px;"></div>
+		
+		<label for="ingredient">Ingredient: </label>
+		<input type="text" th:field="*{ingredient}" />
+		<div style="clear: both; display: block; height: 10px;"></div>
+		
+		<input type="submit" value="Save"></input>
+	</form>
+	
+			
+	
+	
+	
+	<h2>Instructions</h2>
+	<table> 
+    	<tr th:each = "instruction : ${instructions}">
+    		<td th:text="${instruction.stepNum} + ."></td>
+    		<td th:text="${instruction.description}"></td>
+    		<td>
+    			<a th:href="@{/editinstruction/{instructionid}(instructionid=${instruction.instructionId})}">
+    				<button>
+    				Edit
+    				</button>
+    			</a>
+    		</td>
+    		<td>
+    			<a th:href="@{/deleteinstruction/{instructionid}(instructionid=${instruction.instructionId})}">
+    				<button>
+    				Delete
+    				</button>
+    			</a>
+    		</td>
+    	</tr>
+     </table>
+     
+     
+     
+    <!-- Add instruction -->
+    
+    <h3>Add a new step</h3>
+	<form action="#" th:action="@{/saveinstruction}" th:object="${instruction}" method="POST">
+		<input type="hidden" id="recipeId" th:field="*{recipeId}"/>
+		<input type="hidden" id="newStepNum" th:field="*{stepNum}"/>
+		<label for="ingredient">Description: </label>
+		<input type="text" th:field="*{description}" />
+		<div style="clear: both; display: block; height: 10px;"></div>
+		
+		<input type="submit" value="Save"></input>
+	</form>
+	
+	<br/>
+    
+    <a th:href="@{/deleterecipe/{id} (id=${recipe.id})}"><button>Delete recipe</button></a>
+    
+    <br/>
+    <br/>
+    
+   
+    <a th:href="@{/recipe/{id}(id=${recipe.id})}"><button>Finish editing</button></a>
+    <a href="/recipes"><button>Back to recipe list</button></a> 
+ 
+</body>
+</html>

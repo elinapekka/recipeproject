@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recipes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Add, edit or delete units</h1>
+	
+	<!-- table of units, also delete or edit them -->
+    <table>
+		<tr>
+		    <th>Units  </th>
+		</tr>  
+    	<tr th:each = "unit : ${units}">
+    		<td th:text="${unit.unit}"></td>
+    		<td>
+    			<a th:href="@{/editunit/{id}(id=${unit.unitId})}">
+    			<button>
+    			Edit
+    			</button>
+    			</a>
+    		</td>	
+    		<td>
+    			<a th:href="@{/deleteunit/{id}(id=${unit.unitId})}">
+    				<button>
+    				Delete
+    				</button>
+    			</a>
+    		</td>	
+    	</tr>
+     </table>
+     <br/>
+
+     <!-- add a new unit -->
+     <br/>
+     <form action="#" th:action="@{/saveunit}" th:object="${unit}" method="POST">
+		<label for="unit">Add Unit: </label>
+		<input type="text" th:field="*{unit}" />
+		<input type="submit" value="Save"></input>
+	</form>
+	
+    <a href="/recipes"><button>Back to list</button></a>
+</body>
+</html>

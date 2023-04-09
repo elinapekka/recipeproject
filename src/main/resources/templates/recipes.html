@@ -1,0 +1,38 @@
+<!-- within this page, you're able to view and access all the recipes within the website.
+	 the recipes are shown by alphabetical order. -->
+<!-- admins can see the id of the recipe and can access the add recipe and units page from here.  -->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Recipes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Recipes</h1>
+    <table>
+		<tr>
+		    <th sec:authorize="hasAuthority('ADMIN')">id</th>
+		    <th>name</th>
+		    <th>time</th>
+		    <th>short description</th>
+		</tr>  
+    	<tr th:each = "recipe : ${recipes}">
+    		<td sec:authorize="hasAuthority('ADMIN')" th:text="${recipe.id}"></td>
+    		<td th:text="${recipe.name}"></td>
+    		<td th:text="${recipe.time}"></td>
+    		<td th:text="${recipe.shortDescription}"></td>
+    		<td><a th:href="@{/recipe/{id}(id=${recipe.id})}"><button>Full Recipe</button></a></td>	
+    	</tr>
+     </table>
+    
+	<div sec:authorize="hasAuthority('ADMIN')" >
+    	<a href="/addrecipe"><button>Add Recipe</button></a> 
+    	<a href="/units"><button>Units</button></a> 
+    </div>
+     
+	<br/>
+     <form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out"/>
+	</form>
+</body>
+</html>

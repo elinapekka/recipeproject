@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recipes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Edit instruction</h1>
+	
+	<!-- change the description of the chosen instruction -->
+	<p>Current description: "<span th:text="${instruction.description}" th:remove="tag"></span>"</p>
+     <form th:object="${instruction}" th:action="@{../updateinstruction}" action="#" method="post">
+     	<input type="hidden" id="instructionId" th:field="*{instructionId}"/>
+     	<input type="hidden" id="recipeId" th:field="*{recipeId}"/>
+		<input type="text" th:field="*{description}" />
+		<input type="submit" value="Save"></input>
+	</form>
+	
+	<br/>
+	
+	<a th:href="@{/editrecipe/{id}(id=${instruction.recipeId})}"><button>Cancel</button></a> 
+     
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!-- this page showcases the recipe chosen from the recipe list -->
+<!-- for admin: can choose to edit the recipe -->
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Recipe</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	
+	<h1>
+		<span th:text="${recipe.name}" th:remove="tag">title</span>
+	</h1>
+	<p>
+		<span th:text="${recipe.shortDescription}" th:remove="tag">short description</span>
+		<br/>
+		Estimated time: <span th:text="${recipe.time}" th:remove="tag">time</span>
+	</p>
+	
+	
+	<h2>Ingredients</h2>
+	<table>
+    	<tr th:each = "ingredient : ${ingredients}">
+    		<td th:text="${ingredient.quantity} + ${ingredient.unit}"></td>
+    		<td th:text="${ingredient.ingredient}"></td>
+    	</tr>
+     </table>
+	
+	<h2>Instructions</h2>
+	<table> 
+    	<tr th:each = "instruction : ${instructions}">
+    		<td th:text="${instruction.stepNum} + ."></td>
+    		<td th:text="${instruction.description}"></td>
+    	</tr>
+     </table>
+	<br/>
+	<br/>
+	<a sec:authorize="hasAuthority('ADMIN')" th:href="@{/editrecipe/{id}(id=${recipe.id})}"><button>Edit recipe</button></a>
+    <a href="/recipes"><button>Back to list</button></a> 
+ 
+</body>
+</html>
